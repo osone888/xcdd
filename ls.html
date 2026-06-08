@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>60人随机抽取工具</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            max-width: 100%;
+            margin: 15px auto;
+            padding: 0 10px;
+            text-align: center;
+            background: #f5f5f5;
+        }
+        .title {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 4px;
+            margin-bottom: 20px;
+        }
+        .grid-item {
+            padding: 8px 4px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+            word-break: break-all;
+        }
+        .rolling {
+            background: #ffcc00;
+            color: #000;
+            font-weight: bold;
+            border-color: #ff9900;
+        }
+        .selected {
+            background: #ff4444;
+            color: white;
+            font-weight: bold;
+            border-color: #cc0000;
+        }
+        .btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #2196F3;
+            color: white;
+            transition: 0.2s;
+            min-width: 100px;
+        }
+        .btn:disabled {
+            background: #90caf9;
+            cursor: not-allowed;
+        }
+        .reset-btn {
+            background: #607D8B;
+        }
+        .result {
+            font-size: 20px;
+            margin: 15px 0;
+            color: #d32f2f;
+            font-weight: bold;
+            min-height: 28px;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">襄阳修车大队随机抽选一位老师</div>
+    <div class="result" id="result">等待抽取...</div>
+    
+    <div class="grid-container" id="nameGrid"></div>
+
+    <button class="btn" id="drawBtn" onclick="startRoll()">随机上课</button>
+    <button class="btn reset-btn" onclick="reset()">重置</button>
+
+    <script>
+        // ========== 在这里修改你的60个真实名字 ==========
+        const names = [
+            "珊珊","豆豆","泡芙","妞妞","橙子","kiki",
+            "小幺","苏小小","慧慧","双双","小不点","媚儿",
+            "蜜桃","甜馨儿","晴儿","小颖","悠悠","星言",
+            "辰辰","玫瑰","希悦","桃子","栖栖","小敏",
+            "蜜苒","李梦","晓妖","小雨点","悦悦","婉婷",
+            "娜娜","安染","小欣","猫咪","知瑶","妹妹",
+            "初恋","柠檬","姗妹","苏姐己","Lucky","可欣",
+            "猫猫","女王心","朵朵","小仙女","阿杏","夏夏",
+            "小泡芙","心心","泡泡","紫琳","依依","之之",
+            "饼饼","香香","肉肉","欣萝莉","田田","果果"
+        ];
+
+        const grid = document.getElementById('nameGrid');
+        const drawBtn = document.getElementById('drawBtn');
+        const result = document.getElementById('result');
+        let rollingTimer;
+        let lastIndex = -1;
+
+        window.onload = function() {
+            names.forEach((name, index) => {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.id = `item${index}`;
+                item.textContent = name;
+                grid.appendChild(item);
+            });
+        };
+
+        function startRoll() {
+            drawBtn.disabled = true;
+            reset();
+            result.textContent = "随机选取中...";
+            const rollDuration = 5000;
+            const rollSpeed = 80;
+
+            rollingTimer = setInterval(() => {
+                if (lastIndex !== -1) {
+                    document.getElementById(`item${lastIndex}`).classList.remove('rolling');
+                }
+                let randomIndex = Math.floor(Math.random() * names.length);
+                lastIndex = randomIndex;
+                document.getElementById(`item${randomIndex}`).classList.add('rolling');
+            }, rollSpeed);
+
+            setTimeout(() => {
+                clearInterval(rollingTimer);
+                document.querySelectorAll('.grid-item').forEach(item => {
+                    item.classList.remove('rolling');
+                });
+                const finalIndex = Math.floor(Math.random() * names.length);
+                const finalName = names[finalIndex];
+                document.getElementById(`item${finalIndex}`).classList.add('selected');
+                result.textContent = `🎉 抽中：${finalName}`;
+                drawBtn.disabled = false;
+            }, rollDuration);
+        }
+
+        function reset() {
+            clearInterval(rollingTimer);
+            document.querySelectorAll('.grid-item').forEach(item => {
+                item.classList.remove('rolling', 'selected');
+            });
+            result.textContent = "等待抽取...";
+            drawBtn.disabled = false;
+        }
+    </script>
+</body>
+</html>
