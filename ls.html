@@ -36,6 +36,8 @@
             border-radius: 4px;
             font-size: 12px;
             word-break: break-all;
+            cursor: pointer;
+            user-select: none;
         }
         .rolling {
             background: #ffcc00;
@@ -87,19 +89,77 @@
     <button class="btn reset-btn" onclick="reset()">重置</button>
 
     <script>
-        // ========== 在这里修改你的60个真实名字 ==========
+        // ========== 名字 + 对应网址 ==========
         const names = [
-            "珊珊","豆豆","泡芙","妞妞","橙子","kiki",
-            "小幺","苏小小","慧慧","双双","小不点","媚儿",
-            "蜜桃","甜馨儿","晴儿","小颖","悠悠","星言",
-            "辰辰","玫瑰","希悦","桃子","栖栖","小敏",
-            "蜜苒","李梦","晓妖","小雨点","悦悦","婉婷",
-            "娜娜","安染","小欣","猫咪","知瑶","妹妹",
-            "初恋","柠檬","姗妹","苏姐己","Lucky","可欣",
-            "猫猫","女王心","朵朵","小仙女","阿杏","夏夏",
-            "小泡芙","心心","泡泡","紫琳","依依","之之",
-            "露儿","燕子","念念","小洛米","小马哥","洛洛",
-            "饼饼","香香","肉肉","欣萝莉","田田","果果"
+            { name: "珊珊", url: "https://t.me/shanshanxiaowo2" },
+            { name: "豆豆", url: "https://t.me/doudou112234" },
+            { name: "泡芙", url: "https://www.baidu.com" },
+            { name: "妞妞", url: "https://www.baidu.com" },
+            { name: "橙子", url: "https://www.baidu.com" },
+            { name: "kiki", url: "https://www.baidu.com" },
+
+            { name: "小幺", url: "https://www.baidu.com" },
+            { name: "苏小小", url: "https://www.baidu.com" },
+            { name: "慧慧", url: "https://www.baidu.com" },
+            { name: "双双", url: "https://www.baidu.com" },
+            { name: "小不点", url: "https://www.baidu.com" },
+            { name: "媚儿", url: "https://www.baidu.com" },
+
+            { name: "蜜桃", url: "https://www.baidu.com" },
+            { name: "甜馨儿", url: "https://www.baidu.com" },
+            { name: "晴儿", url: "https://www.baidu.com" },
+            { name: "小颖", url: "https://www.baidu.com" },
+            { name: "悠悠", url: "https://www.baidu.com" },
+            { name: "星言", url: "https://www.baidu.com" },
+
+            { name: "辰辰", url: "https://www.baidu.com" },
+            { name: "玫瑰", url: "https://www.baidu.com" },
+            { name: "希悦", url: "https://www.baidu.com" },
+            { name: "桃子", url: "https://www.baidu.com" },
+            { name: "栖栖", url: "https://www.baidu.com" },
+            { name: "小敏", url: "https://www.baidu.com" },
+
+            { name: "蜜苒", url: "https://www.baidu.com" },
+            { name: "李梦", url: "https://www.baidu.com" },
+            { name: "晓妖", url: "https://www.baidu.com" },
+            { name: "小雨点", url: "https://www.baidu.com" },
+            { name: "悦悦", url: "https://www.baidu.com" },
+            { name: "婉婷", url: "https://www.baidu.com" },
+
+            { name: "娜娜", url: "https://www.baidu.com" },
+            { name: "安染", url: "https://www.baidu.com" },
+            { name: "小欣", url: "https://www.baidu.com" },
+            { name: "猫咪", url: "https://www.baidu.com" },
+            { name: "知瑶", url: "https://www.baidu.com" },
+            { name: "妹妹", url: "https://www.baidu.com" },
+
+            { name: "初恋", url: "https://www.baidu.com" },
+            { name: "柠檬", url: "https://www.baidu.com" },
+            { name: "姗妹", url: "https://www.baidu.com" },
+            { name: "苏姐己", url: "https://www.baidu.com" },
+            { name: "Lucky", url: "https://www.baidu.com" },
+            { name: "可欣", url: "https://www.baidu.com" },
+
+            { name: "猫猫", url: "https://www.baidu.com" },
+            { name: "女王心", url: "https://www.baidu.com" },
+            { name: "朵朵", url: "https://www.baidu.com" },
+            { name: "小仙女", url: "https://www.baidu.com" },
+            { name: "阿杏", url: "https://www.baidu.com" },
+            { name: "夏夏", url: "https://www.baidu.com" },
+
+            { name: "小泡芙", url: "https://www.baidu.com" },
+            { name: "心心", url: "https://www.baidu.com" },
+            { name: "泡泡", url: "https://www.baidu.com" },
+            { name: "紫琳", url: "https://www.baidu.com" },
+            { name: "依依", url: "https://www.baidu.com" },
+            { name: "之之", url: "https://www.baidu.com" },
+
+            { name: "饼饼", url: "https://www.baidu.com" },
+            { name: "香香", url: "https://www.baidu.com" },
+            { name: "肉肉", url: "https://www.baidu.com" },
+            { name: "欣萝莉", url: "https://www.baidu.com" },
+            { name: "田田", url: "https://www.baidu.com" },
+            { name: "果果", url: "https://www.baidu.com" },
         ];
 
         const grid = document.getElementById('nameGrid');
@@ -109,12 +169,18 @@
         let lastIndex = -1;
 
         window.onload = function() {
-            names.forEach((name, index) => {
-                const item = document.createElement('div');
-                item.className = 'grid-item';
-                item.id = `item${index}`;
-                item.textContent = name;
-                grid.appendChild(item);
+            names.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'grid-item';
+                div.id = `item${index}`;
+                div.textContent = item.name;
+                
+                // 点击跳转到对应网址
+                div.onclick = function() {
+                    window.open(item.url, '_blank');
+                };
+                
+                grid.appendChild(div);
             });
         };
 
@@ -140,7 +206,7 @@
                     item.classList.remove('rolling');
                 });
                 const finalIndex = Math.floor(Math.random() * names.length);
-                const finalName = names[finalIndex];
+                const finalName = names[finalIndex].name;
                 document.getElementById(`item${finalIndex}`).classList.add('selected');
                 result.textContent = `🎉 抽中：${finalName}`;
                 drawBtn.disabled = false;
